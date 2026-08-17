@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Simulador educativo de daltonismo feito com HTML, CSS e JavaScript puro." />
+    <title>Simulador de Daltonismo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!--
+      Simulador de Daltonismo
+      Autoria: Matheus Reverso, Nathany e Kauan
+      Arquivo independente para VS Code: não depende de React, npm ou backend.
+    -->
+    <svg class="svg-filters" aria-hidden="true" focusable="false">
+      <defs>
+        <filter id="filter-protanopia" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.567 0.433 0 0 0  0.558 0.442 0 0 0  0 0.242 0.758 0 0  0 0 0 1 0" />
+        </filter>
+        <filter id="filter-deuteranopia" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.625 0.375 0 0 0  0.700 0.300 0 0 0  0 0.300 0.700 0 0  0 0 0 1 0" />
+        </filter>
+        <filter id="filter-tritanopia" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.950 0.050 0 0 0  0 0.433 0.567 0 0  0 0.475 0.525 0 0  0 0 0 1 0" />
+        </filter>
+        <filter id="filter-achromatopsia" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0.299 0.587 0.114 0 0  0 0 0 1 0" />
+        </filter>
+        <filter id="filter-protanomaly" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.817 0.183 0 0 0  0.333 0.667 0 0 0  0 0.125 0.875 0 0  0 0 0 1 0" />
+        </filter>
+        <filter id="filter-deuteranomaly" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.800 0.200 0 0 0  0.258 0.742 0 0 0  0 0.142 0.858 0 0  0 0 0 1 0" />
+        </filter>
+        <filter id="filter-tritanomaly" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.967 0.033 0 0 0  0 0.733 0.267 0 0  0 0.183 0.817 0 0  0 0 0 1 0" />
+        </filter>
+        <filter id="filter-achromatomaly" color-interpolation-filters="sRGB">
+          <feColorMatrix type="matrix" values="0.618 0.320 0.062 0 0  0.163 0.775 0.062 0 0  0.163 0.320 0.516 0 0  0 0 0 1 0" />
+        </filter>
+      </defs>
+    </svg>
+
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="#top" aria-label="Voltar ao início">
+          <svg class="brand-mark" viewBox="0 0 48 48" role="img" aria-label="Marca com três círculos coloridos">
+            <circle cx="24" cy="14" r="10" fill="#E8756B" />
+            <circle cx="14" cy="30" r="10" fill="#6B8E7F" />
+            <circle cx="34" cy="30" r="10" fill="#315A86" />
+            <circle cx="24" cy="24" r="7" fill="#F5F7FA" />
+            <circle cx="24" cy="24" r="3" fill="#2C3E50" />
+          </svg>
+          <span>Simulador de Daltonismo</span>
+        </a>
+        <span class="header-label">Aprender pela percepção</span>
+      </div>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-orb hero-orb-blue" aria-hidden="true"></div>
+        <div class="hero-orb hero-orb-coral" aria-hidden="true"></div>
+        <div class="shell hero-content">
+          <p class="eyebrow">Experiência educativa de cores</p>
+          <h1>Enxergue o mundo <em>diferente</em>.</h1>
+          <p class="hero-copy">Daltonismo não é ver em preto e branco. É perceber as cores de outra forma. Escolha um tipo de daltonismo e compare a mesma paleta em duas experiências visuais.</p>
+          <a class="button button-primary" href="#explorar">Começar a explorar <span aria-hidden="true">↓</span></a>
+        </div>
+      </section>
+
+      <section class="explorer shell" id="explorar">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / Escolha uma experiência</p>
+            <h2>Tipos de daltonismo</h2>
+          </div>
+          <p class="section-note">A simulação é educativa e usa filtros de transformação de cor no navegador.</p>
+        </div>
+
+        <div class="type-grid" id="typeGrid" aria-label="Tipos de daltonismo"></div>
+
+        <section class="simulation-card" id="simulationCard" aria-live="polite">
+          <div class="simulation-header">
+            <div>
+              <p class="eyebrow">02 / Compare as paletas</p>
+              <h2 id="selectedTitle">Visão Normal</h2>
+              <p id="selectedDescription">Como a maioria das pessoas enxerga as cores.</p>
+            </div>
+            <div class="prevalence" id="selectedPrevalence">Referência geral</div>
+          </div>
+
+          <div class="palette-stage">
+            <div class="palette-block">
+              <div class="palette-label"><span>Paleta original</span><span>Referência</span></div>
+              <div class="swatch-grid" id="originalPalette"></div>
+            </div>
+            <div class="palette-divider" aria-hidden="true"><span>→</span></div>
+            <div class="palette-block simulated-block" id="simulatedBlock" hidden>
+              <div class="palette-label"><span>Como pode ser percebida</span><span id="simulatedTypeLabel">Visão normal</span></div>
+              <div class="swatch-grid" id="simulatedPalette"></div>
+            </div>
+          </div>
+
+          <div class="simulation-actions">
+            <button class="button button-primary" id="simulateButton" type="button">Clique e veja</button>
+            <button class="button button-quiet" id="resetButton" type="button">Voltar à paleta normal</button>
+          </div>
+          <p class="simulation-status" id="simulationStatus" role="status">Selecione um tipo e clique em “Clique e veja” para aplicar a simulação.</p>
+        </section>
+      </section>
+
+      <section class="about-section">
+        <div class="shell about-layout">
+          <div>
+            <p class="eyebrow">03 / Contexto</p>
+            <h2>Mais do que uma cor, uma experiência.</h2>
+          </div>
+          <div class="about-copy">
+            <p>O daltonismo é uma condição que altera a percepção de determinadas cores. As formas mais comuns envolvem os cones sensíveis ao vermelho e ao verde; outras formas afetam a percepção do azul ou reduzem a visão cromática.</p>
+            <p>Os nomes e filtros aqui apresentados servem para explicar o tema com clareza. Cada pessoa pode ter uma experiência própria, e uma avaliação especializada é o caminho adequado para diagnóstico.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div>
+          <p class="footer-kicker">Simulador de Daltonismo</p>
+          <p class="footer-text">Uma experiência de educação visual feita para estimular empatia, acessibilidade e curiosidade.</p>
+        </div>
+        <div>
+          <p class="footer-kicker">Autoria</p>
+          <p class="footer-text">Matheus Reverso, Nathany e Kauan</p>
+        </div>
+        <div>
+          <p class="footer-kicker">Nota</p>
+          <p class="footer-text">Simulação educativa. Não substitui avaliação oftalmológica.</p>
+        </div>
+      </div>
+      <div class="shell footer-bottom">© 2026 Simulador de Daltonismo · Projeto educacional</div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>
